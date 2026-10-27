@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A10 - Cookies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+        }
+        footer {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Cookie Website</h1>
+    <p id="message"></p>
+
+    <footer>
+        <p>&copy; Liza Naas, November 17, 2026</p>
+    </footer>
+
+    <script>
+        // Save a cookie for 30 days
+        function setCookie(name, value) {
+            const date = new Date();
+            date.setTime(date.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+            document.cookie = name + "=" +
+                encodeURIComponent(value) +
+                "; expires=" + date.toUTCString() +
+                "; path=/; SameSite=Lax";
+        }
+
+        // Read a saved cookie
+        function getCookie(name) {
+            const cookies = document.cookie.split(";");
+
+            for (let cookie of cookies) {
+                cookie = cookie.trim();
+
+                if (cookie.startsWith(name + "=")) {
+                    return decodeURIComponent(
+                        cookie.substring(name.length + 1)
+                    );
+                }
+            }
+            return "";
+        }
+
+        // Ask only when no cookie exists
+        let username = getCookie("username");
+
+        if (username === "") {
+            username = prompt("Please enter your name:");
+
+            if (username !== null && username.trim() !== "") {
+                username = username.trim();
+                setCookie("username", username);
+            }
+        }
+
+        // Display the cookie value
+        if (username) {
+            document.getElementById("message").textContent =
+                "Welcome back, " + username + "!";
+        } else {
+            document.getElementById("message").textContent =
+                "No cookie has been saved yet.";
+        }
+    </script>
+</body>
+</html>
